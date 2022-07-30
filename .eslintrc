@@ -19,7 +19,10 @@
      "object-curly-newline": ["error", { "consistent": true }]
    },
    "parserOptions": {
-     "ecmaVersion": 2017
+     "ecmaVersion": 2018,
+     "ecmaFeatures": {
+       "experimentalObjectRestSpread": true
+     }
    },
    "env": {
      "es6": true
