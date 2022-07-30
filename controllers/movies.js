@@ -1,13 +1,27 @@
-const getMovies = () => {
-  console.log('getMovies');
+const Movie = require('../models/movie');
+
+const getMovies = (req, res, next) => {
+  Movie.find({})
+    .then((data) => {
+      res.send(data);
+    }).catch(next);
 };
 
-const saveMovie = () => {
-  console.log('saveMovie');
+const saveMovie = (req, res, next) => {
+  const filmInfo = req.body;
+  Movie.create({ ...filmInfo, owner: req.user._id })
+    .then((data) => {
+      res.send(data);
+    }).catch(next);
 };
 
-const deleteMovie = () => {
-  console.log('deleteMovie');
+const deleteMovie = (req, res, next) => {
+  Movie.findByIdAndRemove(req.params.movieId)
+    .then(() => {
+      res.send(
+        { message: 'Movie was deleted' }
+      );
+    }).catch(next);
 };
 
 module.exports = {
