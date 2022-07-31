@@ -8,6 +8,7 @@ require('dotenv').config();
 
 const { router } = require('./routes/index');
 const setAllowedCors = require('./middlewares/setAllowedCors');
+const setRateLimit = require('./middlewares/setRateLimit');
 const requestLogger = require('./middlewares/logging/requestLogger');
 const errorLogger = require('./middlewares/logging/errorLogger');
 const sendResponseWithErrorMessage = require('./middlewares/errorProcessing/sendResponseWithErrorMessage');
@@ -15,7 +16,10 @@ const sendResponseWithErrorMessage = require('./middlewares/errorProcessing/send
 const { PORT = 3000, DB_PATH, NODE_ENV } = process.env;
 
 const app = express();
+app.set('trust proxy', 1);
 mongoose.connect(NODE_ENV !== 'production' ? 'mongodb://localhost:27017/moviesdb' : DB_PATH);
+
+app.use(setRateLimit);
 
 app.use(setAllowedCors);
 app.use(helmet());
