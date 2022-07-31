@@ -63,9 +63,13 @@ const logout = (req, res) => {
 };
 
 const getCurrentUserInfo = (req, res, next) => {
-  User.getById(req.user_id)
-    .then((data) => {
-      res.send(data);
+  User.findById(req.user._id)
+    .then((user) => {
+      res.send({
+        name: user.name,
+        email: user.email,
+        id: user._id
+      });
     }).catch(next);
 };
 

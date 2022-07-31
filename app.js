@@ -6,12 +6,12 @@ const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
 require('dotenv').config();
 
-const { router } = require('./routes/index');
-const setAllowedCors = require('./middlewares/setAllowedCors');
-const setRateLimit = require('./middlewares/setRateLimit');
-const requestLogger = require('./middlewares/logging/requestLogger');
-const errorLogger = require('./middlewares/logging/errorLogger');
-const sendResponseWithErrorMessage = require('./middlewares/errorProcessing/sendResponseWithErrorMessage');
+const router = require('./routes/index');
+const { setAllowedCors } = require('./middlewares/setAllowedCors');
+const { setRateLimit } = require('./middlewares/setRateLimit');
+const { requestLogger } = require('./middlewares/logging/requestLogger');
+const { errorLogger } = require('./middlewares/logging/errorLogger');
+const { sendResponseWithErrorMessage } = require('./middlewares/errorProcessing/sendResponseWithErrorMessage');
 
 const { PORT = 3000, DB_PATH, NODE_ENV } = process.env;
 
