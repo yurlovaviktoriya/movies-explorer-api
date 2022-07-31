@@ -1,4 +1,5 @@
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
 
@@ -16,7 +17,30 @@ const register = (req, res, next) => {
 };
 
 const login = () => {
-  console.log('login!');
+  const { email, password } = req.body;
+  const { NODE_ENV, JWT_SECRET } = process.env;
+  User.findUserByCredentials(email, password)
+    .then((user) => {
+      const token = jwt.sign(
+        { _id: user._id },
+        NODE_ENV === 'production' ? JWT_SECRET : 'some-dev-secret',
+        { expiresIn: '7d' }
+      );
+      res.cookie('jwt', token, {
+        maxAge: 3600000 * 24 * 7,
+        httpOnly: true,
+        sameSite: 'none',
+        secure: true,
+        // domain: 'yurlova.nomoredomains.xyz'
+      }).send({
+        _id: user._id,
+        email: user.email,
+        name: user.name
+      });
+    }).catch((err) => {
+      res.clearCookie('jwt');
+      next(err);
+    });
 };
 
 const getCurrentUserInfo = (req, res, next) => {
