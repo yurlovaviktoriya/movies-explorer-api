@@ -43,6 +43,15 @@ const login = (req, res, next) => {
     });
 };
 
+const logout = (req, res) => {
+  res.clearCookie('jwt', {
+    httpOnly: true,
+    sameSite: 'none',
+    secure: true,
+    // domain: 'yurlova.nomoredomains.xyz'
+  }).send({ message: 'Выполнен выход из приложения' });
+};
+
 const getCurrentUserInfo = (req, res, next) => {
   User.getById(req.user_id)
     .then((data) => {
@@ -64,6 +73,7 @@ const updateCurrentUserInfo = (req, res, next) => {
 module.exports = {
   register,
   login,
+  logout,
   getCurrentUserInfo,
   updateCurrentUserInfo
 };
