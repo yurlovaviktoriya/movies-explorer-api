@@ -6,14 +6,17 @@ const { errors } = require('celebrate');
 require('dotenv').config();
 
 const { router } = require('./routes/index');
-const sendResponseWithErrorMessage = require('./middlewares/errorProcessing/sendResponseWithErrorMessage');
+const setAllowedCors = require('./middlewares/setAllowedCors');
 const requestLogger = require('./middlewares/logging/requestLogger');
 const errorLogger = require('./middlewares/logging/errorLogger');
+const sendResponseWithErrorMessage = require('./middlewares/errorProcessing/sendResponseWithErrorMessage');
 
 const { PORT = 3000, DB_PATH, NODE_ENV } = process.env;
 
 const app = express();
 mongoose.connect(NODE_ENV !== 'production' ? 'mongodb://localhost:27017/moviesdb' : DB_PATH);
+
+app.use(setAllowedCors);
 
 app.use(bodyParser.json());
 app.use(cookieParser());
