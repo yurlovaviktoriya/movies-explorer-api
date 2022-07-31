@@ -7,6 +7,8 @@ require('dotenv').config();
 
 const { router } = require('./routes/index');
 const sendResponseWithErrorMessage = require('./middlewares/errorProcessing/sendResponseWithErrorMessage');
+const requestLogger = require('./middlewares/logging/requestLogger');
+const errorLogger = require('./middlewares/logging/errorLogger');
 
 const { PORT = 3000, DB_PATH, NODE_ENV } = process.env;
 
@@ -16,7 +18,9 @@ mongoose.connect(NODE_ENV !== 'production' ? 'mongodb://localhost:27017/moviesdb
 app.use(bodyParser.json());
 app.use(cookieParser());
 
+app.use(requestLogger);
 app.use(router);
+app.use(errorLogger);
 
 app.use(errors());
 app.use(sendResponseWithErrorMessage);
