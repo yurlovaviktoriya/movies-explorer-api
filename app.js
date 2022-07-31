@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const helmet = require('helmet');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
@@ -17,6 +18,7 @@ const app = express();
 mongoose.connect(NODE_ENV !== 'production' ? 'mongodb://localhost:27017/moviesdb' : DB_PATH);
 
 app.use(setAllowedCors);
+app.use(helmet());
 
 app.use(bodyParser.json());
 app.use(cookieParser());
