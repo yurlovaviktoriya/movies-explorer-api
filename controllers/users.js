@@ -2,6 +2,9 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
+const ConflictError = require('../errorClasses/ConflictError');
+const isDbErrors = require('../middlewares/errorProcessing/isDbErrors');
+const isNotResource = require('../middlewares/errorProcessing/isNotResource');
 
 const register = (req, res, next) => {
   const { email, password, name } = req.body;
@@ -13,7 +16,14 @@ const register = (req, res, next) => {
         _id: data._id,
         email: data.email
       });
-    }).catch(next);
+    }).catch((err) => {
+      if (err.code === 11000) {
+        res.clearCookie('jwt');
+        throw new ConflictError('Пользователь с таким email-адресом уже зарегистрирован');
+      }
+      isDbErrors(err);
+    })
+    .catch(next);
 };
 
 const login = (req, res, next) => {
@@ -66,6 +76,9 @@ const updateCurrentUserInfo = (req, res, next) => {
     { name, email },
     { new: true, runValidators: true }
   ).then((data) => {
+    if (!data) {
+      isNotResource(req, res);
+    }
     res.send(data);
   }).catch(next);
 };

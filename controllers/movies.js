@@ -1,9 +1,12 @@
 const Movie = require('../models/movie');
+const isDbError = require('../middlewares/errorProcessing/isDbErrors');
 
 const getMovies = (req, res, next) => {
   Movie.find({})
     .then((data) => {
       res.send(data);
+    }).catch((err) => {
+      isDbError(err);
     }).catch(next);
 };
 
@@ -12,6 +15,8 @@ const saveMovie = (req, res, next) => {
   Movie.create({ ...filmInfo, owner: req.user._id })
     .then((data) => {
       res.send(data);
+    }).catch((err) => {
+      isDbError(err);
     }).catch(next);
 };
 
@@ -21,6 +26,8 @@ const deleteMovie = (req, res, next) => {
       res.send(
         { message: 'Movie was deleted' }
       );
+    }).catch((err) => {
+      isDbError(err);
     }).catch(next);
 };
 
