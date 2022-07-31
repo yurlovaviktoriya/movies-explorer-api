@@ -1,4 +1,23 @@
+const bcrypt = require('bcryptjs');
+
 const User = require('../models/user');
+
+const register = (req, res, next) => {
+  const { email, password, name } = req.body;
+  bcrypt.hash(password, 10)
+    .then((hash) => User.create({ email, password: hash, name }))
+    .then((data) => {
+      res.send({
+        name: data.name,
+        _id: data._id,
+        email: data.email
+      });
+    }).catch(next);
+};
+
+const login = () => {
+  console.log('login!');
+};
 
 const getCurrentUserInfo = (req, res, next) => {
   User.getById(req.user_id)
@@ -19,6 +38,8 @@ const updateCurrentUserInfo = (req, res, next) => {
 };
 
 module.exports = {
+  register,
+  login,
   getCurrentUserInfo,
   updateCurrentUserInfo
 };
