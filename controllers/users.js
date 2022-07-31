@@ -16,7 +16,7 @@ const register = (req, res, next) => {
     }).catch(next);
 };
 
-const login = () => {
+const login = (req, res, next) => {
   const { email, password } = req.body;
   const { NODE_ENV, JWT_SECRET } = process.env;
   User.findUserByCredentials(email, password)
