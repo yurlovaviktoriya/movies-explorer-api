@@ -67,8 +67,7 @@ const getCurrentUserInfo = (req, res, next) => {
     .then((user) => {
       res.send({
         name: user.name,
-        email: user.email,
-        id: user._id
+        email: user.email
       });
     }).catch(next);
 };
@@ -85,8 +84,7 @@ const updateCurrentUserInfo = (req, res, next) => {
     }
     res.send({
       name: user.name,
-      email: user.email,
-      id: user._id
+      email: user.email
     });
   }).catch(next);
 };
