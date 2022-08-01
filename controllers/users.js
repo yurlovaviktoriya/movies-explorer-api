@@ -75,15 +75,19 @@ const getCurrentUserInfo = (req, res, next) => {
 
 const updateCurrentUserInfo = (req, res, next) => {
   const { name, email } = req.body;
-  User.getByIdAndUpdate(
+  User.findByIdAndUpdate(
     req.user._id,
     { name, email },
     { new: true, runValidators: true }
-  ).then((data) => {
-    if (!data) {
+  ).then((user) => {
+    if (!user) {
       isNotResource(req, res);
     }
-    res.send(data);
+    res.send({
+      name: user.name,
+      email: user.email,
+      id: user._id
+    });
   }).catch(next);
 };
 
