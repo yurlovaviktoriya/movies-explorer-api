@@ -3,8 +3,8 @@ const isDbError = require('../middlewares/errorProcessing/isDbErrors');
 
 const getMovies = (req, res, next) => {
   Movie.find({})
-    .then((data) => {
-      res.send(data);
+    .then((movies) => {
+      res.send(movies);
     }).catch((err) => {
       isDbError(err);
     }).catch(next);
@@ -13,8 +13,8 @@ const getMovies = (req, res, next) => {
 const saveMovie = (req, res, next) => {
   const filmInfo = req.body;
   Movie.create({ ...filmInfo, owner: req.user._id })
-    .then((data) => {
-      res.send(data);
+    .then((movie) => {
+      res.send(movie);
     }).catch((err) => {
       isDbError(err);
     }).catch(next);

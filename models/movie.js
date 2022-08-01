@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
-
-const { regexLink } = require('../middlewares/validation/regex');
+const validator = require('validator');
 
 const movieSchema = new mongoose.Schema({
   country: {
@@ -28,9 +27,9 @@ const movieSchema = new mongoose.Schema({
     required: [true, 'Поле со ссылкой на постер фильма обязательно для заполнения. Получена пустая строка.'],
     validate: {
       validator(v) {
-        return regexLink.test(v);
+        return validator.isURL(v);
       },
-      message: (props) => `${props.value} is not a valid uri!`
+      message: 'Строка не является форматом url-адреса'
     }
   },
   trailerLink: {
@@ -38,9 +37,9 @@ const movieSchema = new mongoose.Schema({
     required: [true, 'Поле со ссылкой на трейлер фильма обязательно для заполнения. Получена пустая строка.'],
     validate: {
       validator(v) {
-        return regexLink.test(v);
+        return validator.isURL(v);
       },
-      message: (props) => `${props.value} is not a valid uri!`
+      message: 'Строка не является форматом url-адреса'
     }
   },
   thumbnail: {
@@ -48,19 +47,15 @@ const movieSchema = new mongoose.Schema({
     required: [true, 'Поле со миниатюрой постера фильма обязательно для заполнения. Получена пустая строка.'],
     validate: {
       validator(v) {
-        return regexLink.test(v);
+        return validator.isURL(v);
       },
-      message: (props) => `${props.value} is not a valid uri!`
+      message: 'Строка не является форматом url-адреса'
     }
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user',
     required: [true, 'Автор записи обязателен для заполнения. Получена пустая строка.']
-  },
-  movieId: {
-    type: Number,
-    required: [true, 'Поле с id фильма обязательно для заполнения. Получена пустая строка.']
   },
   nameRU: {
     type: String,

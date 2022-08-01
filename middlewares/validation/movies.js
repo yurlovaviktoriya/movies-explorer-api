@@ -1,6 +1,5 @@
 const { celebrate, Joi } = require('celebrate');
-
-const { regexLink } = require('./regex');
+const validator = require('validator');
 
 const saveMovieValidator = celebrate({
   body: Joi.object().keys({
@@ -9,18 +8,32 @@ const saveMovieValidator = celebrate({
     duration: Joi.number().required(),
     year: Joi.string().required(),
     description: Joi.string().required(),
-    image: Joi.string().required().pattern(regexLink),
-    trailerLink: Joi.string().required().pattern(regexLink),
-    thumbnail: Joi.string().required().pattern(regexLink),
-    movieId: Joi.number().required(),
+    image: Joi.string().required().custom((value, helpers) => {
+      if (validator.isURL(value)) {
+        return value;
+      }
+      return helpers.message('Поле image должно иметь URL_формат');
+    }),
+    trailerLink: Joi.string().required().custom((value, helpers) => {
+      if (validator.isURL(value)) {
+        return value;
+      }
+      return helpers.message('Поле traolerLink должно иметь URL_формат');
+    }),
+    thumbnail: Joi.string().required().custom((value, helpers) => {
+      if (validator.isURL(value)) {
+        return value;
+      }
+      return helpers.message('Поле thumbnail должно иметь URL_формат');
+    }),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required()
   })
 });
 
 const movieIdValidator = celebrate({
-  body: Joi.object().keys({
-    movieId: Joi.number().min(1)
+  params: Joi.object().keys({
+    movieId: Joi.string().hex().length(24)
   })
 });
 
