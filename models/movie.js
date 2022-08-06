@@ -57,6 +57,10 @@ const movieSchema = new mongoose.Schema({
     ref: 'user',
     required: [true, 'Автор записи обязателен для заполнения. Получена пустая строка.'],
   },
+  movieId: {
+    type: Number,
+    required: [true, 'Поле с id от внешнего API обязательно для заполнения. Получена пустая строка.'],
+  },
   nameRU: {
     type: String,
     required: [true, 'Поле с названием фильма на русском языке обязательно для заполнения. Получена пустая строка.'],

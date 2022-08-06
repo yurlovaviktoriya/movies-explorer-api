@@ -26,6 +26,7 @@ const saveMovieValidator = celebrate({
       }
       return helpers.message('Поле thumbnail должно иметь URL_формат');
     }),
+    movieId: Joi.number().required(),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
   }),
