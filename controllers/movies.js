@@ -24,7 +24,7 @@ const deleteMovie = (req, res, next) => {
   Movie.findByIdAndRemove(req.params.movieId)
     .then(() => {
       res.send(
-        { message: 'Movie was deleted' }
+        { message: 'Movie was deleted' },
       );
     }).catch((err) => {
       isDbError(err);
@@ -34,5 +34,5 @@ const deleteMovie = (req, res, next) => {
 module.exports = {
   getMovies,
   saveMovie,
-  deleteMovie
+  deleteMovie,
 };

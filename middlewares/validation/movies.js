@@ -27,17 +27,17 @@ const saveMovieValidator = celebrate({
       return helpers.message('Поле thumbnail должно иметь URL_формат');
     }),
     nameRU: Joi.string().required(),
-    nameEN: Joi.string().required()
-  })
+    nameEN: Joi.string().required(),
+  }),
 });
 
 const movieIdValidator = celebrate({
   params: Joi.object().keys({
-    movieId: Joi.string().hex().length(24)
-  })
+    movieId: Joi.string().hex().length(24),
+  }),
 });
 
 module.exports = {
   saveMovieValidator,
-  movieIdValidator
+  movieIdValidator,
 };

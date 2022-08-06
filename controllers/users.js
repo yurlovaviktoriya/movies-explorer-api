@@ -14,7 +14,7 @@ const register = (req, res, next) => {
       res.send({
         name: data.name,
         _id: data._id,
-        email: data.email
+        email: data.email,
       });
     }).catch((err) => {
       if (err.code === 11000) {
@@ -34,18 +34,18 @@ const login = (req, res, next) => {
       const token = jwt.sign(
         { _id: user._id },
         NODE_ENV === 'production' ? JWT_SECRET : 'some-dev-secret',
-        { expiresIn: '7d' }
+        { expiresIn: '7d' },
       );
       res.cookie('jwt', token, {
         maxAge: 3600000 * 24 * 7,
         httpOnly: true,
         sameSite: 'none',
         secure: true,
-        domain: 'yurlova.diploma.nomoredomains.xyz'
+        domain: 'yurlova.diploma.nomoredomains.xyz',
       }).send({
         _id: user._id,
         email: user.email,
-        name: user.name
+        name: user.name,
       });
     }).catch((err) => {
       res.clearCookie('jwt');
@@ -58,7 +58,7 @@ const logout = (req, res) => {
     httpOnly: true,
     sameSite: 'none',
     secure: true,
-    domain: 'yurlova.diploma.nomoredomains.xyz'
+    domain: 'yurlova.diploma.nomoredomains.xyz',
   }).send({ message: 'Выполнен выход из приложения' });
 };
 
@@ -67,7 +67,7 @@ const getCurrentUserInfo = (req, res, next) => {
     .then((user) => {
       res.send({
         name: user.name,
-        email: user.email
+        email: user.email,
       });
     }).catch(next);
 };
@@ -77,14 +77,14 @@ const updateCurrentUserInfo = (req, res, next) => {
   User.findByIdAndUpdate(
     req.user._id,
     { name, email },
-    { new: true, runValidators: true }
+    { new: true, runValidators: true },
   ).then((user) => {
     if (!user) {
       isNotResource(req, res);
     }
     res.send({
       name: user.name,
-      email: user.email
+      email: user.email,
     });
   }).catch(next);
 };
@@ -94,5 +94,5 @@ module.exports = {
   login,
   logout,
   getCurrentUserInfo,
-  updateCurrentUserInfo
+  updateCurrentUserInfo,
 };
