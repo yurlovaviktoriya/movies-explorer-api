@@ -3,7 +3,6 @@ const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
 const ConflictError = require('../errorClasses/ConflictError');
-const isDbErrors = require('../middlewares/errorProcessing/isDbErrors');
 const isNotResource = require('../middlewares/errorProcessing/isNotResource');
 
 const register = (req, res, next) => {
@@ -16,14 +15,7 @@ const register = (req, res, next) => {
         _id: data._id,
         email: data.email,
       });
-    }).catch((err) => {
-      if (err.code === 11000) {
-        res.clearCookie('jwt');
-        throw new ConflictError('Пользователь с таким email-адресом уже зарегистрирован');
-      }
-      isDbErrors(err);
-    })
-    .catch(next);
+    }).catch(next);
 };
 
 const login = (req, res, next) => {
@@ -47,10 +39,7 @@ const login = (req, res, next) => {
         email: user.email,
         name: user.name,
       });
-    }).catch((err) => {
-      res.clearCookie('jwt');
-      next(err);
-    });
+    }).catch(next);
 };
 
 const logout = (req, res) => {
