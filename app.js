@@ -19,6 +19,7 @@ const app = express();
 app.set('trust proxy', 1);
 mongoose.connect(NODE_ENV !== 'production' ? 'mongodb://localhost:27017/moviesdb' : DB_PATH);
 
+app.use(requestLogger);
 app.use(setRateLimit);
 
 app.use(setAllowedCors);
@@ -27,7 +28,6 @@ app.use(helmet());
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-app.use(requestLogger);
 app.use(router);
 app.use(errorLogger);
 

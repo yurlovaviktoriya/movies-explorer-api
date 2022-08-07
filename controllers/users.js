@@ -2,7 +2,6 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
-const ConflictError = require('../errorClasses/ConflictError');
 const isNotResource = require('../middlewares/errorProcessing/isNotResource');
 
 const register = (req, res, next) => {
