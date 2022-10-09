@@ -32,7 +32,7 @@ const login = (req, res, next) => {
         httpOnly: true,
         sameSite: 'none',
         secure: true,
-        domain: 'yurlova.diploma.nomoredomains.xyz',
+        domain: 'yurlova.diploma.nomoredomains.sbs',
       }).send({
         _id: user._id,
         email: user.email,
@@ -46,7 +46,7 @@ const logout = (req, res) => {
     httpOnly: true,
     sameSite: 'none',
     secure: true,
-    domain: 'yurlova.diploma.nomoredomains.xyz',
+    domain: 'yurlova.diploma.nomoredomains.sbs',
   }).send({ message: 'Выполнен выход из приложения' });
 };
 
