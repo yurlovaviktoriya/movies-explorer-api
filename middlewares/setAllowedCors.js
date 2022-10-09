@@ -3,7 +3,7 @@ module.exports.setAllowedCors = (req, res, next) => {
     'http://yurlova.diploma.nomoredomains.xyz',
     'https://yurlova.diploma.nomoredomains.xyz',
     'yurlova.diploma.nomoredomains.xyz',
-    'localhost:3000',
+    'localhost:3000'
   ];
   const { origin } = req.headers;
   const { method } = req;
